@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using noteApp.Models;
 
 namespace noteApp.Controllers;
 
@@ -9,22 +10,25 @@ public class TestController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IConfiguration _config;
+    private readonly DatabaseContext _context; 
 
-    public TestController( IMapper mapper, IConfiguration config)
+    public TestController(DatabaseContext context, IMapper mapper, IConfiguration config)
     {
         _mapper = mapper;
-        _config = config;
+        _config = config;  
+        _context = context;
     }
 
     [HttpGet("test")]
-    public string test()
-    {    
-        return "App and working2" + _config.GetConnectionString("DefaultConnection");
+    public IActionResult test()
+    {
+        return Ok(_context.Users.ToList());
+        // return "App and working2" + _config.GetConnectionString("DefaultConnection");
     }
     
     [HttpGet("test2")]
     public string GetNotes()
     {    
-        return "App and unning1";
+        return "App and working2" + _config.GetConnectionString("DefaultConnection");
     }
 }
